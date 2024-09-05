@@ -1,8 +1,7 @@
+//import routes from './routes';
 
 import pageLayout from '@/pages/_layout';
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
-
-//import routes from './routes';
 
 const modules = import.meta.glob("@/pages/*.vue", { eager: true });
 function getRoutes() {
@@ -53,7 +52,6 @@ const router = createRouter({
     history: createWebHashHistory(),
     routes,
 });
-
-router.beforeEach(loadLayoutMiddleware)
+//router.beforeEach(loadLayoutMiddleware)
 
 export default router;
