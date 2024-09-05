@@ -1,13 +1,14 @@
 <script>
-    import { defineComponent } from "vue";
-
     export default defineComponent({
-        name: "TheDashboardLayout",
+        name: "LayDefault",
     });
 </script>
 
 <template>
     <HelloWorld />
-    <h3>TheDashboardLayout</h3>
+    <h3>LayDefault</h3>
     <slot></slot>
 </template>
+
+
+

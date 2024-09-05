@@ -1,16 +1,11 @@
 <script>
-    import { defineComponent } from "vue";
-
     export default defineComponent({
-        name: "TheDefaultLayout",
+        name: "LayDashboard",
     });
 </script>
 
 <template>
     <HelloWorld />
-    <h3>TheDefaultLayout</h3>
+    <h3>LayDashboard</h3>
     <slot></slot>
 </template>
-
-
-
