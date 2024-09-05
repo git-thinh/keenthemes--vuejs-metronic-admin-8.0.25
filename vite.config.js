@@ -1,7 +1,5 @@
 import path from 'path'
-import {
-	defineConfig
-} from 'vite'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
@@ -14,6 +12,6 @@ export default defineConfig({
 		outDir: '../dist',
 	},
 	server: {
-		port: 80
+		port: 5123
 	}
 })
