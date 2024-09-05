@@ -1,10 +1,11 @@
 {
   "name": "test",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "view": "serve ./dist -p 80",
+    "view": "serve ./dist -p 5123",
     "test": "npm run build"
   },
   "devDependencies": {

@@ -29,10 +29,49 @@ window._userGet = () => {
 //     new Popover(popover)
 //   })
 
-import { createApp } from 'vue'
-import App from './App.vue'
-//import router from '../view/_route.js'
+//import { createApp } from 'vue'
+//import { createRouter, createWebHistory } from 'vue-router'
+//import { createGetRoutes, setupLayouts } from 'virtual:generated-layouts'
 
-const app = createApp(App)
-//app.use(router)
-app.mount(document.body)
+////import generatedRoutes from 'virtual:generated-pages'
+//import generatedRoutes from '~pages'
+
+//import App from './App.vue'
+////import router from '../view/_route.js'
+
+////import './sass/style.scss';
+
+////const app = createApp(App)
+////app.use(router)
+////app.mount(document.body)
+
+
+//const routes = setupLayouts(generatedRoutes);
+//const router = createRouter({
+//	history: createWebHistory(),
+//	routes,
+//});
+
+//const getRoutes = createGetRoutes(router);
+//console.log(getRoutes());
+
+//const app = createApp(App);
+//app.use(router);
+//app.mount(document.body);
+
+
+
+
+
+import { createApp } from 'vue';
+
+import App from './App.vue';
+import router from './router';
+import { registerLayouts } from './layouts/register';
+
+const app = createApp(App);
+registerLayouts(app);
+
+app.use(router);
+
+app.mount(document.body);
