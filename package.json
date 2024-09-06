@@ -6,6 +6,8 @@
     "dev": "vite",
     "build": "vite build",
     "view": "serve ./dist -p 5123",
+    "css": "sass ./src/sass/style.scss ./dist/css/style.css && sass ./src/sass/style.scss ./src/css/style.css",
+    "cssw": "sass ./src/sass/style.scss ./dist/assets/css/style.bundle.css -w --style",
     "test": "npm run build"
   },
   "devDependencies": {

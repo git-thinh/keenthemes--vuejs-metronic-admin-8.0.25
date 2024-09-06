@@ -1,7 +1,7 @@
 //import routes from './routes';
 
 import pageLayout from '@/pages/_layout';
-import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 
 const modules = import.meta.glob("@/pages/*.vue", { eager: true });
 function getRoutes() {
@@ -12,15 +12,16 @@ function getRoutes() {
 
         let path = name.toLowerCase();
         if (path == 'home' || path == 'index') path = '';
-        let layout = pageLayout[path] || 'Default';
-        //console.log(name, layout);
+        const layoutName = pageLayout[path] || pageLayout[name.toLowerCase()] || 'None';
+        //console.log(name, layoutName);
         a.push({
             path: '/' + path,
             name: name,
             //component: () => import('../pages/Home.vue'),
             component: fn,
             meta: {
-                layout: layout,
+                layoutName: layoutName,
+                layoutComponent: null,
             },
         })
     }
@@ -28,30 +29,25 @@ function getRoutes() {
 }
 
 const routes = getRoutes();
-console.log('routes =', routes);
+console.log('[ routes ] =', routes);
 
 async function loadLayoutMiddleware(route) {
     try {
-        //let layout = 'Default' // Default, Dashboard;
-        //route.meta.layout = layout;
-        //console.log('[router.before] layout =', layout);
-        //let layout = route.meta.layout
-        //let layoutComponent = await import(`@/layouts/${layout}.vue`)
-        //route.meta.layoutComponent = layoutComponent.default
+        if (!route.meta.layoutComponent) {
+            const layoutName = route.meta.layoutName || 'None';
+            const layoutComponent = await import(`@/layouts/Lay${layoutName}.vue`)
+            route.meta.layoutComponent = layoutComponent.default;
+            console.log('[ routes ].before: layout =', layoutName);
+        }
     } catch (e) {
-        console.error('Error occurred in processing of layouts: ', e)
-        console.log('Mounted default layout AppLayoutDefault')
-        //let layout = 'AppLayoutDefault'
-        //let layoutComponent = await import(`@/layouts/${layout}.vue`)
-        //route.meta.layoutComponent = layoutComponent.default
+        console.error('[ routes ].before: Error occurred in processing of layouts: ', e);
     }
 }
 
 const router = createRouter({
-    //history: createWebHistory(),
     history: createWebHashHistory(),
     routes,
 });
-//router.beforeEach(loadLayoutMiddleware)
+router.beforeEach(loadLayoutMiddleware)
 
 export default router;

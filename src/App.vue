@@ -14,6 +14,10 @@
 </script>
 
 <style lang="scss">
+    html[data-bs-theme="dark"] body {
+        background-color: #222;
+    }
+
 	// @import "~bootstrap-icons/font/bootstrap-icons.css";
 	// @import "~apexcharts/dist/apexcharts.css";
 	// @import "~quill/dist/quill.snow.css";

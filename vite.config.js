@@ -30,6 +30,7 @@ export default defineConfig({
         Components({
             dirs: [
                 'layouts',
+                'kits',
                 'components',
                 'components/**'
             ],
@@ -40,8 +41,13 @@ export default defineConfig({
             include: [/\.vue($|\?)/, /\.md($|\?)/],
             resolvers: [
                 (name) => {
-                    if (name === 'MyCustom')
-                        return path.resolve(__dirname, 'src/CustomResolved.vue').replaceAll('\\', '/')
+                    console.log(name);
+                    //if (name === 'MyCustom') return path.resolve(__dirname, 'src/CustomResolved.vue').replaceAll('\\', '/')
+                    switch (name[0]) {
+                        case '~':
+                            //const sp = path.resolve(__dirname, 'src/CustomResolved.vue').replaceAll('\\', '/')
+                            break;
+                    }
                 },
                 IconsResolver({
                     componentPrefix: 'i',

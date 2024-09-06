@@ -6,4 +6,6 @@ export default {
     '@/stores/cart': [['useCartStore']],
     '@/stores/todo': [['useTodoStore']],
     '@/stores/counter': [['useCounterStore']],
+    //----------------------------------------
+    '@/stores/domain': [['useDomainStore']],    
 }

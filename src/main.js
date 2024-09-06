@@ -1,4 +1,5 @@
 window.__app = null;
+window.__allComponents = {};
 window.__page = null;
 
 window._userInit = (user) => {
@@ -22,12 +23,16 @@ window._userGet = () => {
 };
 
 //import * as bootstrap from 'bootstrap'
+//import './sass/style.scss';
 
 // Create an example popover
 // document.querySelectorAll('[data-bs-toggle="popover"]')
 //   .forEach(popover => {
 //     new Popover(popover)
 //   })
+
+window.__allComponents = import.meta.glob('./**/*.vue');
+console.log('allComponents =', window.__allComponents);
 
 import { createApp } from 'vue';
 import App from './App.vue';
@@ -39,3 +44,6 @@ app.use(router);
 app.use(createPinia());
 
 app.mount(document.body);
+
+window.__app = app;
+//console.log(app._instance.appContext.components)
