@@ -1,3 +1,5 @@
+console.log(`[ main ][ ${__mode__} ]`);
+
 window.__app = null;
 window.__allComponents = {};
 window.__page = null;
@@ -32,7 +34,7 @@ window._userGet = () => {
 //   })
 
 window.__allComponents = import.meta.glob('./**/*.vue');
-console.log('allComponents =', window.__allComponents);
+console.log('[ main ] allComponents =', Object.keys(window.__allComponents));
 
 import { createApp } from 'vue';
 import App from './App.vue';

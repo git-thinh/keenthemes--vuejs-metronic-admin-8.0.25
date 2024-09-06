@@ -1,3 +1,3 @@
 <template>
-    <slot></slot>
+    <KitLogin01/>
 </template>

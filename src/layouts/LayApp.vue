@@ -9,9 +9,9 @@
         setup() {
             const route = useRoute();
             const layout = computed(() => {
-                const layout = route?.meta?.layoutComponent || 'div';
-                console.log('[ LayApp ] layout =', layout?.__file);
-                return layout;
+                const v = route?.meta?.layoutComponent || 'div';
+                console.log('[ LayApp ] layout =', v?.__file || v);
+                return v;
             });
             return {
                 layout,
