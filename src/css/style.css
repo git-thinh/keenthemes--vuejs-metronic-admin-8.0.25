@@ -44422,5 +44422,8 @@ body {
     padding: 15px 0;
   }
 }
+.remove-arrow.dropdown-toggle::after {
+  display: none;
+}
 
 /*# sourceMappingURL=style.css.map */

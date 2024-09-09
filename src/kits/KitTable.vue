@@ -1,58 +1,61 @@
 <script setup>
     //const emit = defineEmits(['change', 'delete'])
-    const props = defineProps(['subComs', 'items', 'caption', 'class', 'AddNewTitle',]);
-    const pathSubComs = props.subComs || [];
-    console.log('pathSubComs =', pathSubComs);
-    //const vueSubComs = pathSubComs.map(path => defineAsyncComponent(() => import(path)));
-    //console.log('vueSubComs =', vueSubComs);
-
-    const allComponents = window.__allComponents;
-    //const vueSubComs = pathSubComs.map(path => allComponents[path]);
-    const vueSubComs = pathSubComs.map(path => defineAsyncComponent({
-        loader: allComponents[path],
-        //loadingComponent: AsyncLoading,
-        //errorComponent: AsyncError,
+    const props = defineProps(['items', 'caption', 'class', 'actions', 'subComs',]);
+    const vueSubComs = (props.subComs || []).map(path => defineAsyncComponent({
+        loader: window.__allComponents[path],
         timeout: 3000,
-        delay: 200, // Delay before showing the loading component. Default: 200ms.
+        delay: 200,
     }));
-    console.log('vueSubComs =', vueSubComs);
 
+    const actions = [
+        {
+            type: 'button',
+            title: 'Create Job',
+            class: 'btn btn-primary me-3',
+            icon: 'bi bi-plus-circle-fill fs-1',
+        },
+        //{
+        //    type: 'button',
+        //    title: 'Stop Jobs',
+        //    class: 'btn btn-danger me-3',
+        //    icon: 'bi bi-stop-fill fs-1',
+        //},
+        {
+            type: 'dropdown',
+            title: 'Stop Jobs',
+            class: 'btn btn-danger',
+            icon: 'bi bi-stop-fill fs-1',
+            items: [
+                {
+                    title: 'Search URL',
+                    value: 'SEARCH_URL',
+                },
+                {
+                    value: '{HR}',
+                },
+                {
+                    title: 'Sign Out',
+                    value: 'SIGN_OUT',
+                },
+            ],
+
+            arrowHide: true,
+            subOpen: false,
+            subAlignment: 'end-0',
+        },
+    ];
 </script>
 
 <template>
     <!--begin::Card-->
     <div class="card pt-4 mb-6 mb-xl-9">
-        <!--begin::Card header-->
-        <div class="card-header border-0">
-            <!--begin::Card title-->
-            <div class="card-title">
-                <h2 class="fw-bolder mb-0">
-                    {{caption}}
-                </h2>
-            </div>
-            <!--end::Card title-->
-            <!--begin::Card toolbar-->
-            <div class="card-toolbar">
-                <a @click="submit()" class="btn btn-sm btn-flex btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_new_card">
-                    <!--begin::Svg Icon | path: icons/duotune/general/gen035.svg-->
-                    <span class="svg-icon svg-icon-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor" />
-                            <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="currentColor" />
-                            <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor" />
-                        </svg>
-                    </span>
-                    <!--end::Svg Icon-->
-                    {{AddNewTitle}}
-                </a>
-            </div>
-            <!--end::Card toolbar-->
-        </div>
-        <!--end::Card header-->
+        <KitToolbar :caption="props.caption" :actions="actions" />
+
         <!--begin::Card body-->
         <div id="kt_customer_view_payment_method" class="card-body pt-0">
+            <KitBreadcrumb :actions="actions"/>
 
-            <div v-for="it in list" class="py-0" data-kt-customer-payment-method="row">
+            <div v-for="(it,ix) in list" class="py-0" data-kt-customer-payment-method="row">
 
                 <!--begin::Header-->
                 <div class="py-3 d-flex flex-stack flex-wrap">
@@ -71,12 +74,16 @@
                         </div>
                         <!--end::Arrow-->
                         <!--begin::Logo-->
-                        <KitImage src="/assets/media/svg/card-logos/visa.svg" class="w-40px me-3" alt="" />
+                        <!--<KitImage src="/assets/media/svg/card-logos/visa.svg" class="w-40px me-3" alt="" />-->
+                        
+                        <i v-if="ix==1" class="bi bi-exclamation-circle fs-1 me-3 text-danger"></i>
+                        <i v-else class="bi bi-check2-circle fs-1 me-3 text-success"></i>
+
                         <!--end::Logo-->
                         <!--begin::Summary-->
                         <div class="me-3">
                             <div class="d-flex align-items-center">
-                                <div class="text-gray-800 fw-bolder">
+                                <div class="text-gray-800 fw-bolder fs-3">
                                     {{it.title}}
                                 </div>
                             </div>
@@ -91,19 +98,12 @@
                 <!--end::Header-->
                 <!--begin::Body-->
                 <div :class="(it.subOpen?'show':'')+' collapse fs-6 ps-10'">
-                    <h3>?????</h3>
 
                     <!--begin::Details-->
                     <div class="d-flex flex-wrap py-5">
                         <!--begin::Col-->
-                        <div v-for="(vs,ix) in pathSubComs" class="flex-equal me-5">
-                            {{vs}}
-                            <!--<SubVue :name="cm"></SubVue>-->
-                            <!--<KitListKV/>-->
+                        <div v-for="(vs,ix) in vueSubComs" class="flex-equal me-5">
                             <component :is="vueSubComs[ix]"></component>
-                            <!--<kit-async-component :component="vs"
-                                                 example="Example Props"
-                                                 @listen="listen" />-->
                         </div>
                         <!--end::Col-->
                     </div>
@@ -124,33 +124,5 @@
 
 <script>
     import KitTable from './KitTable.js'
-    export default {
-        //props: {
-        //    items: {
-        //        type: Array,
-        //        default: [],
-        //        required: false
-        //    },
-        //    caption: {
-        //        type: String,
-        //        required: false
-        //    },
-        //    AddNewTitle: {
-        //        type: String,
-        //        default: 'Add new',
-        //        required: false
-        //    },
-        //    class: {
-        //        type: String,
-        //        required: false
-        //    }
-        //},
-        //setup() {
-        //    const name = '@/kits/KitListKV.vue';
-        //    const SubVue = defineAsyncComponent(() => import(name))
-        //    console.log('SubVue =', SubVue);
-        //    return { SubVue };
-        //},
-        mixins: [KitTable],
-    }
+    export default { mixins: [KitTable] }
 </script>
