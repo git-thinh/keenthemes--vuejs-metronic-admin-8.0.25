@@ -37,6 +37,7 @@ export default defineConfig(({ mode }) => {
     return {
         root: PATH_SRC,
         define: envValue,
+        logLevel: mode == 'production' ? 'error' : 'info', //info,error,silent
         plugins: [
             Vue({
                 include: [/\.vue$/, /\.md$/],
